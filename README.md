@@ -4,7 +4,7 @@
 
 ![PHP 7.4+](https://img.shields.io/badge/PHP-%3E%3D%207.4-brightgreen)
 ![License MIT](https://img.shields.io/badge/License-MIT-brightgreen)
-![Ver 1.0.2-SNAPSHOT](https://img.shields.io/badge/version-1.0.2--SNAPSHOT-blue)
+![Ver 1.0.2](https://img.shields.io/badge/version-1.0.2-blue)
 
 
 This is just Collections API in PHP.
@@ -14,7 +14,7 @@ operations on them. Operations on Collection/Stream can be chained.
 
 See usage examples in `/Examples` and unit tests in the project.
 
-Project status: project is in progress so curent version is _1.0.2 SNAPSHOT_. First stable version will be released soon.
+Project status: project is in progress so curent _version 1.0.2_ is just first tested but basic version. Next versions will be using generators (`yield`) instead of normal looping and arrays.
 
 
 ## Usage Examples
