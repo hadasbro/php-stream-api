@@ -16,6 +16,11 @@ See usage examples in `/Examples` and unit tests in the project.
 
 Project status: project is in progress so curent _version 1.0.2_ is just first tested but basic version. Next versions will be using generators (`yield`) instead of normal looping and arrays.
 
+## Install
+Installation via Composer
+```php
+composer require hadasbro/php-streams
+```
 
 ## Usage Examples
 
