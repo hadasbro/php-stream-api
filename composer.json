@@ -1,0 +1,40 @@
+{
+  "name": "hadasbro/php-streams",
+  "type": "library",
+  "description": "PHP Streams - Java-like Stream API for PHP",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Slawomir Hadas",
+      "email": "slawomir.hadas@yahoo.com"
+    }
+  ],
+  "autoload": {
+    "files": [
+
+    ],
+    "psr-4": {
+      "Collections\\": "src/Collections/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Unit\\": "tests/Unit/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.5"
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "scripts": {
+    "test": "codecept run --debug"
+  },
+  "prefer-stable": true
+}
