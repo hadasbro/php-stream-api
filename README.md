@@ -1,6 +1,6 @@
 # PHP Streams
 
-![Ver 1.0.1 SNAPSHOT](https://img.shields.io/badge/ver-1.0.1--SNAPSHOT-blue)
+![Ver 1.0.2-SNAPSHOT](https://img.shields.io/badge/version-1.0.2--SNAPSHOT-blue)
 ![PHP 7.4+](https://img.shields.io/badge/PHP-%3E%3D%207.4-brightgreen)
 ![License MIT](https://img.shields.io/badge/License-MIT-brightgreen)
 
