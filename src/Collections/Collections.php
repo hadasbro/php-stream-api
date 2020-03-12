@@ -669,89 +669,117 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
     /**
      * collect
      *
-     * TODO
-     *
      * @param iterable $source
-     * @param callable $collector
-     * @return iterable
-     * @throws CollectionsNotImplementedException
+     * @param Collector $collector
+     * @return |null
+     * @throws CollectionsException
      */
-    public static function collect(iterable $source, callable $collector) : iterable
+    public static function collect(iterable $source, Collector $collector)
     {
-        throw new CollectionsNotImplementedException("Not implemented");
+        return $collector->collect($source);
     }
 
     /**
      * append
      *
-     * TODO
-     *
      * @param iterable $source
      * @param $element
      * @return array
      * @throws CollectionsNotImplementedException
+     * @throws CollectionsException
      */
     public static function append(iterable $source, $element): array
     {
-        throw new CollectionsNotImplementedException("Not implemented");
+        $_src = self::sourceAsArray($source);
+
+        array_push($_src, $element);
+
+        return $_src;
+    }
+
+    /**
+     * prepend
+     *
+     * @param iterable $source
+     * @param $element
+     * @return array
+     * @throws CollectionsException
+     */
+    public static function prepend(iterable $source, $element): array
+    {
+        $_src = self::sourceAsArray($source);
+
+        array_unshift($_src, $element);
+
+        return $_src;
+
     }
 
     /**
      * shuffle
      *
-     * TODO
-     *
      * @param iterable $source
      * @return array
      * @throws CollectionsNotImplementedException
+     * @throws CollectionsException
      */
     public static function shuffle(iterable $source): array
     {
-        throw new CollectionsNotImplementedException("Not implemented");
+        $_src = self::sourceAsArray($source);
+
+        shuffle($_src);
+
+        return $_src;
     }
 
     /**
      * skip
      *
-     * TODO
-     *
      * @param iterable $source
      * @param int $skipElements
      * @return array
      * @throws CollectionsNotImplementedException
+     * @throws CollectionsException
      */
     public static function skip(iterable $source, int $skipElements): array
     {
-        throw new CollectionsNotImplementedException("Not implemented");
+        $_src = self::sourceAsArray($source);
+
+        return array_slice ($_src, $skipElements);
+
     }
 
     /**
      * limit
      *
-     * TODO
-     *
      * @param iterable $source
      * @param int $limit
      * @return array
      * @throws CollectionsNotImplementedException
+     * @throws CollectionsException
      */
     public static function limit(iterable $source, int $limit): array
     {
-        throw new CollectionsNotImplementedException("Not implemented");
+        $_src = self::sourceAsArray($source);
+
+        return array_slice ($_src, 0, $limit);
+
     }
 
     /**
      * reverse
      *
-     * TODO
-     *
      * @param iterable $source
      * @return array
      * @throws CollectionsNotImplementedException
+     * @throws CollectionsException
      */
     public static function reverse(iterable $source): array
     {
-        throw new CollectionsNotImplementedException("Not implemented");
+        $_src = self::sourceAsArray($source);
+
+        return array_reverse($_src);
+
     }
 
 }

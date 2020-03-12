@@ -4,6 +4,8 @@
 namespace Collections\Interfaces;
 
 
+use Collections\Collector;
+
 interface CollectionsContextApi
 {
 
@@ -84,25 +86,28 @@ interface CollectionsContextApi
     # get current collection (after all modifications)
     public function getCollection(): iterable;
 
-    # flat elements [TODO]
+    # flat elements
     public function flatMap(callable $flatterFunction): self;
 
-    # collect to any required data structure [TODO]
-    public function collect(callable $collector);
+    # collect to any required data structure
+    public function collect(Collector $collector);
 
-    # add element to collection [TODO]
+    # add element to collection
     public function append($element): self;
 
-    # shuffle collection [TODO]
+    # add element at the beginning of collection
+    public function prepend($element): self;
+
+    # shuffle collection
     public function shuffle(): self;
 
-    # skip x - elements in a collection [TODO]
+    # skip x - elements in a collection
     public function skip(int $skipElements): self;
 
-    # take only x - elements from collection [TODO]
+    # take only x - elements from collection
     public function limit(int $limit): self;
 
-    # reverse collection [TODO]
+    # reverse collection
     public function reverse(): self;
 
 }

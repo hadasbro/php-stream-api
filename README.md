@@ -1,10 +1,7 @@
 # PHP Streams
 
-![PHP Composer](https://github.com/hadasbro/php-stream-api/workflows/PHP%20Composer/badge.svg)
-
+![PHP Composer](https://github.com/hadasbro/php-streams/workflows/PHP%20Composer/badge.svg)
 ![PHP 7.4+](https://img.shields.io/badge/PHP-%3E%3D%207.4-brightgreen)
-![License MIT](https://img.shields.io/badge/License-MIT-brightgreen)
-![Ver 1.0.2](https://img.shields.io/badge/version-1.0.2-blue)
 
 
 This is just Collections API in PHP.
@@ -14,13 +11,8 @@ operations on them. Operations on Collection/Stream can be chained.
 
 See usage examples in `/Examples` and unit tests in the project.
 
-Project status: project is in progress so curent _version 1.0.2_ is just first tested but basic version. Next versions will be using generators (`yield`) instead of normal looping and arrays.
+Project status: project is in progress so curent version is _1.0.2 SNAPSHOT_. First stable version will be released soon.
 
-## Install
-Installation via Composer
-```php
-composer require hadasbro/php-streams
-```
 
 ## Usage Examples
 
@@ -86,6 +78,71 @@ class SampleObj
     {
         $this->type = $type;
         return $this;
+    }
+
+}
+```
+
+##### Example - arrow functions used for operations (PHP >= 7.4)
+
+See more [Arrow Functions PHP 7.4](https://wiki.php.net/rfc/arrow_functions)
+```php
+class StreamTest extends TestCase
+{
+    public function testStream()
+    {
+
+        $manyObjects = [
+            new SampleObj(0, 13),
+            new SampleObj(1, 13),
+            new SampleObj(14, 13),
+            new SampleObj(7, 11),
+            new SampleObj(14, 13),
+            new SampleObj(33, 2),
+            new SampleObj(33, 11),
+            new SampleObj(2, 1),
+            new SampleObj(21, 777),
+            new SampleObj(0, 134),
+        ];
+
+        /**
+         * @var $stream CollectionsStream
+         */
+        $stream = CollectionsStream::fromIterable($manyObjects);
+        
+        $reducedStream = 
+            
+            $stream
+
+            ->map(fn(SampleObj $obj) => ($obj->getType() == 13 && $obj->setType(444)) ? $obj : $obj)
+            
+            ->filter(fn(SampleObj $obj) => $obj->getId() != 1)
+            
+            ->reject(fn(SampleObj $obj) => $obj->getType() == 777)
+            
+            ->distinct(fn(SampleObj $obj1, SampleObj $obj2) => $obj1->getType() == $obj2->getType())
+            
+            ->orElse(fn(SampleObj $obj1) => $obj1->getId() == 0, new SampleObj(1, 1))
+            
+            ->sort(fn(SampleObj $obj1, SampleObj $obj2) => $obj1->getId() >= $obj2->getId())
+            
+            ->groupBy(fn(SampleObj $obj) => $obj->getType())
+
+            ->reduce(
+                fn ($acumulated, array $obj) => ($acumulated = array_merge([], is_array($acumulated) ? $acumulated : [], array_values($obj))) ? $acumulated : $acumulated
+            );
+
+        var_dump($reducedStream);
+        /*
+            [
+                SampleObj(33, 2),
+                SampleObj(7, 11),
+                SampleObj(2, 1),
+                SampleObj(1, 1),
+                SampleObj(1, 1)
+            ]
+        */
+
     }
 
 }
@@ -200,72 +257,116 @@ class _StreamExamples
 
 }
 ```
-##### Example - arrow functions used for operations (PHP >= 7.4)
+### Raw examples, static usage - lambda functions used for operations
 
-See more [Arrow Functions PHP 7.4](https://wiki.php.net/rfc/arrow_functions)
+
+##### Example of `Collections::collect` (predefined collectors)
+
+Examples:
 ```php
-class StreamTest extends TestCase
+class _CollectorsExamples
 {
-    public function testStream()
-    {
 
-        $manyObjects = [
-            new SampleObj(0, 13),
-            new SampleObj(1, 13),
-            new SampleObj(14, 13),
-            new SampleObj(7, 11),
-            new SampleObj(14, 13),
-            new SampleObj(33, 2),
-            new SampleObj(33, 11),
-            new SampleObj(2, 1),
-            new SampleObj(21, 777),
-            new SampleObj(0, 134),
-        ];
+    public static function generalTest() {
 
-        /**
-         * @var $stream CollectionsStream
-         */
-        $stream = CollectionsStream::fromIterable($manyObjects);
-        
-        $reducedStream = 
-            
-            $stream
+        try {
 
-            ->map(fn(SampleObj $obj) => ($obj->getType() == 13 && $obj->setType(444)) ? $obj : $obj)
-            
-            ->filter(fn(SampleObj $obj) => $obj->getId() != 1)
-            
-            ->reject(fn(SampleObj $obj) => $obj->getType() == 777)
-            
-            ->distinct(fn(SampleObj $obj1, SampleObj $obj2) => $obj1->getType() == $obj2->getType())
-            
-            ->orElse(fn(SampleObj $obj1) => $obj1->getId() == 0, new SampleObj(1, 1))
-            
-            ->sort(fn(SampleObj $obj1, SampleObj $obj2) => $obj1->getId() >= $obj2->getId())
-            
-            ->groupBy(fn(SampleObj $obj) => $obj->getType())
+            $manyObjects = [
+                new SampleObj(1, 13),
+                new SampleObj(14, 13),
+                new SampleObj(7, 11),
+                new SampleObj(14, 13),
+                new SampleObj(33, 2),
+                new SampleObj(33, 11),
+                new SampleObj(2, 1)
+            ];
 
-            ->reduce(
-                fn ($acumulated, array $obj) => ($acumulated = array_merge([], is_array($acumulated) ? $acumulated : [], array_values($obj))) ? $acumulated : $acumulated
-            );
+            # join all IDs into 1 string separated by commas
+            $collector = Collector::of(Collector::JOINING, function (CollectionsSampleObject $obj) { return $obj->getId(); });
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected); // '1,14,7,14,33,33,2'
+    
+            # Join with custom separator - @
+            $collector = Collector::of(Collector::JOINING, function (CollectionsSampleObject $obj) { return ['value' => $obj->getId(), 'separator' => '@']; });
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected); // 1@14@7@14@33@33@2
 
-        var_dump($reducedStream);
-        /*
-            [
-                SampleObj(33, 2),
-                SampleObj(7, 11),
-                SampleObj(2, 1),
-                SampleObj(1, 1),
-                SampleObj(1, 1)
-            ]
-        */
+            # sum all elements
+            $collector = Collector::of(Collector::SUMMING, function (SampleObj $obj) { return $obj->getId(); });
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // 104
+
+            # multiply all elements
+            $collector = Collector::of(Collector::MULTIPLYING, function (SampleObj $obj) { return $obj->getId(); });
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // 2 988 216
+
+            # put all elements to array
+            $collector = Collector::of(Collector::TO_FLAT_ARRAY, function (SampleObj $obj) { return $obj->getId(); });
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // [ 1, 14, 7, 14, 33, 33, 2 ]
+
+            # return string with all alements wrapped by single quote
+            $collector = Collector::of(Collector::TO_CONCAT_OF_STRINGS, function (SampleObj $obj) { return $obj->getId(); });
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // '1','14','7','14','33','33','2'
+
+            # generate and return associative array of elements
+            $collector = Collector::of(Collector::TO_ASSOC_ARRAY, function (SampleObj $obj) { 
+                # here, in extractor, we need to define how do we want to 
+                # generate key and value for each element
+                return ['key' => $obj->getType(), 'value' => $obj]; 
+            });
+
+            $collected = Collections::collect($manyObjects, $collector);
+
+            va($collected);
+            /*
+                [
+                    13 => new SampleObj(14, 13),
+                    11 => new SampleObj(33, 11),
+                    2 => new SampleObj(2, 2)
+                    1 => new SampleObj(2, 1)
+                ]
+            */
+
+
+        } catch (\Throwable $t) {
+            vae($t);
+        }
+
 
     }
 
 }
 ```
 
-### Raw examples, static usage - lambda functions used for operations
+Predefined collectors
+```php
+class Collector extends CollectorOperations {
+    
+    const JOINING = 1; # [a, b, c] -> a,b,c
+    const SUMMING = 2; # [a, b, c] -> a + b + c
+    const MULTIPLYING = 3; # [a, b, c] -> a * b * c
+    const TO_FLAT_ARRAY = 4; # [obj1, obj2, obj3] -> [ obj1->getId(), obj2->getId(), obj3->getId()]
+    const TO_CONCAT_OF_STRINGS = 5; # [obj1, obj2] -> ['{obj1->getId()}', '{obj2->getId()}']
+    
+    /*
+     * Note: if you use this collector, then your extractor must
+     * specify how do you want to generate keys and values from your data
+     * Your extractor must return [key => _how_to_obtain_key_, value => _how_to_obtain_value_ ]
+     *
+     * for example:
+     *
+     *      $collector = Collector::of(
+     *          Collector::TO_ASSOC_ARRAY,
+     *          function ($obj) { return ['key' => $obj->getId(), 'value' => $obj]; }
+     *      );
+     *
+     */
+    const TO_ASSOC_ARRAY = 6; # [obj1, obj2] -> [obj1->getId() => obj1, obj2->getId() => obj2]
+}
+```
 
 ##### Example of `Collections::allMatch` (all objects from our array are also in another array)
 
@@ -1110,7 +1211,80 @@ class _ContainsSearch
 }
 ```
 
+##### Example of `Collections::collect` (predefined collectors)
 
+Examples:
+```php
+class _CollectorsExamples
+{
+
+    public static function generalTest() {
+
+        try {
+
+            $manyObjects = [
+                new SampleObj(1, 13),
+                new SampleObj(14, 13),
+                new SampleObj(7, 11),
+                new SampleObj(14, 13),
+                new SampleObj(33, 2),
+                new SampleObj(33, 11),
+                new SampleObj(2, 1)
+            ];
+            
+            # join all IDs into 1 string separated by commas
+            $collector = Collector::of(Collector::JOINING, fn (CollectionsSampleObject $obj) => $obj->getId());
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected); // '1,14,7,14,33,33,2'
+            
+            # Join with custom separator - @
+            $collector = Collector::of(Collector::JOINING, fn (CollectionsSampleObject $obj) => ['value' => $obj->getId(), 'separator' => '@']);
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected); // 1@14@7@14@33@33@2
+            
+            # sum all elements
+            $collector = Collector::of(Collector::SUMMING, fn (CollectionsSampleObject $obj) => $obj->getId());
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // 104
+            
+            # multiply all elements
+            $collector = Collector::of(Collector::MULTIPLYING, fn (CollectionsSampleObject $obj) =>  $obj->getId());
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // 2 988 216
+            
+            # put all elements to array
+            $collector = Collector::of(Collector::TO_FLAT_ARRAY, fn (CollectionsSampleObject $obj) => $obj->getId());
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // [ 1, 14, 7, 14, 33, 33, 2 ]
+            
+            # return string with all alements wrapped by single quote
+            $collector = Collector::of(Collector::TO_CONCAT_OF_STRINGS, fn (CollectionsSampleObject $obj) => $obj->getId());
+            $collected = Collections::collect($manyObjects, $collector);
+            va($collected);  // '1','14','7','14','33','33','2'
+            
+            # generate and return associative array of elements
+            $collector = Collector::of(Collector::TO_ASSOC_ARRAY, fn (CollectionsSampleObject $obj) => ['key' => $obj->getType(), 'value' => $obj]);
+            $collected = Collections::collect($manyObjects, $collector);
+
+            va($collected);
+            /*
+                [
+                    13 => new SampleObj(14, 13),
+                    11 => new SampleObj(33, 11),
+                    2 => new SampleObj(2, 2)
+                    1 => new SampleObj(2, 1)
+                ]
+            */
+
+        } catch (\Throwable $t) {
+            vae($t);
+        }
+
+
+    }
+
+}
+```
 
 _____
 
@@ -1124,19 +1298,19 @@ interface CollectionsContextApi
 
     # map elements in the collection to any other elements or just transforrm
     public function map(callable $mapper): self ;
-
+    
     # filter elements in the collection
     public function filter(callable $predicate): self;
-
+    
     # alias to filter
     public function transform(callable $predicate): self;
-
+    
     # remove only elements matching to predicate
     public function reject(callable $predicate): self;
-
+    
     # get the smallest/lowest/youngest element
     public function min(callable $firstIsLowerComparator);
-
+    
     # get the biggest/highest/oldest element
     public function max(callable $firstIsLowerComparator);
     
@@ -1145,44 +1319,44 @@ interface CollectionsContextApi
     
     # check if collection is not empty
     public function isNotEmpty(): bool;
-
+    
     # sort colelction
     public function sort(callable $biSorter): self;
-
+    
     # count elements in the collection
     public function count() : int;
-
+    
     # count elements and group by provided keys
     public function countBy(callable $keyProducer): array;
-
+    
     # reduce collection into 1 element
     public function reduce(callable $reducer);
-
+    
     # get distinct sub-collection
     public function distinct(callable $biPredicate): self;
-
+    
     # check if all elements match to criteria
     public function allMatch(callable $predicate): bool;
-
+    
     # check if any elements match to criteria
     public function anyMatch(callable $predicate): bool;
-
+    
     # check if every element doesnt match to criteria
     public function noneMatch(callable $predicate): bool;
-
+    
     # get sub-collection groupped by required criteria
     public function groupBy(callable $keyProducer): self ;
-
+    
     # get sub-collection with all "not-null elements", every "null-element" replace to default element
     # "null element" is an element which match to predicate
     public function orElse(callable $isNullPredicate, $defaultElement): self;
-
+    
     # get sub-collection with all "not-null elements" or throw an Exception if any "null element" is inside
     public function orElseThrow(callable $isNullPredicate): self;
-
+    
     # check if collection contains element
     public function contains(callable $predicate): bool;
-
+    
     # search element in the collection
     public function search(callable $predicate): self;
     
@@ -1191,32 +1365,35 @@ interface CollectionsContextApi
     
     # tansform colection to associative array with required keys (keys are produced by keyProducer)
     public function toAssocArray(callable $keyProducer, $strict = true): self;
-
+    
     # get current collection (after all modifications). This is alias for self::getCollection
     public function get(): iterable;
-
+    
     # get current collection (after all modifications)
     public function getCollection(): iterable;
-
-    # flat elements [FUTURE]
+    
+    # flat elements [FUTURE
     public function flatMap(callable $flatterFunction): self;
-
-    # collect to any required data structure [FUTURE]
-    public function collect(callable $collector);
-
-    # add element to collection [FUTURE]
+    
+    # collect to any required data structure
+    public function collect(Collector $collector);
+    
+    # add element to collection
     public function append($element): self;
-
-    # shuffle collection [FUTURE]
+    
+    # add element to at the beginning of collection
+    public function prepend($element): self;
+    
+    # shuffle collection
     public function shuffle(): self;
-
-    # skip x - elements in a collection [FUTURE]
+    
+    # skip x - elements in a collection
     public function skip(int $skipElements): self;
-
-    # take only x - elements from collection [FUTURE]
+    
+    # take only x - elements from collection
     public function limit(int $limit): self ;
-
-    # reverse collection [FUTURE]
+    
+    # reverse collection
     public function reverse(): self;
 
 }
@@ -1229,96 +1406,99 @@ Below interface show full contract of all static methods can be used.
 
 ```php
 interface CollectionsStaticApi {
-
+    
     # map elements in the collection to any other elements or just transforrm
     public static function map(iterable $source, callable $mapper): array;
-
+    
     # filter elements in the collection
     public static function filter(iterable $source, callable $predicate): array;
-
+    
     # alias to filter
     public static function transform(iterable $source, callable $predicate): array;
         
     # remove only elements matching to predicate
     public static function reject(iterable $source, callable $predicate): array;
-
+    
     # get the smallest/lowest/youngest element
     public static function min(iterable $source, callable $firstIsLowerComparator);
-
+    
     # get the biggest/highest/oldest element
     public static function max(iterable $source, callable $firstIsLowerComparator);
     
-	# check if collection is empty
+    # check if collection is empty
     public static function isEmpty(iterable $source): bool;
-
-	# check if collection is not empty
+    
+    # check if collection is not empty
     public static function isNotEmpty(iterable $source): bool;
-
+    
     # sort colelction
     public static function sort(iterable $source, callable $biSorter): array;
-
+    
     # count elements in the collection
     public static function count(iterable $source) : int;
     
     # count elements and group by provided keys
     public static function countBy(iterable $source, callable $keyProducer): array;
-
+    
     # reduce collection into 1 element
     public static function reduce(iterable $source, callable $reducer);
-
+    
     # get distinct sub-collection
     public static function distinct(iterable $source, callable $biPredicate): array;
-
+    
     # check if all elements match to criteria
     public static function allMatch(iterable $source, callable $predicate): bool;
-
+    
     # check if any elements match to criteria
     public static function anyMatch(iterable $source, callable $predicate): bool;
-
+    
     # check if every element doesnt match to criteria
     public static function noneMatch(iterable $source, callable $predicate): bool;
-
+    
     # get sub-collection groupped by required criteria
     public static function groupBy(iterable $source, callable $keyProducer): array;
-
+    
     # get sub-collection with all "not-null elements", every "null-element" replace to default element
     # "null element" is an element which match to predicate
     public static function orElse(iterable $source, callable $isNullPredicate, $defaultElement): array;
-
+    
     # get sub-collection with all "not-null elements" or throw an Exception if any "null element" is inside
     public static function orElseThrow(iterable $source, callable $isNullPredicate): array;
-	
+    
     # check if collection contains element
     public static function contains(iterable $source, callable $predicate): bool;
     
     # search element in the collection
     public static function search(iterable $source, callable $predicate): array;
-
-	# call function on each element from collection (consume collection's elements)
+    
+    # call function on each element from collection (consume collection's elements)
     public static function forEach(iterable $source, callable $consumer): void;
     
-	# tansform colection to associative array with required keys (keys are produced by keyProducer)
+    # tansform colection to associative array with required keys (keys are produced by keyProducer)
     public static function toAssocArray(iterable $source, callable $keyProducer, $strict = true): array;
-	
+    
     # flat elements [FUTURE]
     public static function flatMap(iterable $source, callable $flatterFunction): array;
-
-    # collect to any required data structure [FUTURE]
-    public static function collect(iterable $source, callable $collector);
-
-    # add element to collection [FUTURE]
+    
+    # collect to any required data structure
+    public static function collect(iterable $source, Collector $collector);
+    
+    # add element to collection
     public static function append(iterable $source, $element): array;
-
-    # shuffle collection [FUTURE]
+    
+    # add element to at the beginning of collection
+    public function prepend($element): self;
+    
+    # shuffle collection
     public static function shuffle(iterable $source): array;
-
-    # skip x - elements in a collection [FUTURE]
+    
+    # skip x - elements in a collection
     public static function skip(iterable $source, int $skipElements): array;
-   
-    # take only x - elements from collection [FUTURE]
+    
+    # take only x - elements from collection
     public static function limit(iterable $source, int $limit): array;
-
-    # reverse collection [FUTURE]
+    
+    # reverse collection
     public static function reverse(iterable $source): array;
 
 }

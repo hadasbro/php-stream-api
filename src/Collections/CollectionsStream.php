@@ -308,8 +308,9 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * @param callable $collector
      * @return iterable
      * @throws Exceptions\CollectionsNotImplementedException
+     * @throws Exceptions\CollectionsException
      */
-    public function collect(callable $collector) : iterable
+    public function collect(Collector $collector) : iterable
     {
         $this->setTerminatedBy(__METHOD__);
         return Collections::collect($this->getCollection(), $collector);
@@ -575,6 +576,7 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * @param $element
      * @return CollectionsContextApi
      * @throws Exceptions\CollectionsNotImplementedException
+     * @throws Exceptions\CollectionsException
      */
     public function append($element): CollectionsContextApi
     {
@@ -588,6 +590,7 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      *
      * @return CollectionsContextApi
      * @throws Exceptions\CollectionsNotImplementedException
+     * @throws Exceptions\CollectionsException
      */
     public function shuffle(): CollectionsContextApi
     {
@@ -602,6 +605,7 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * @param int $skipElements
      * @return CollectionsContextApi
      * @throws Exceptions\CollectionsNotImplementedException
+     * @throws Exceptions\CollectionsException
      */
     public function skip(int $skipElements): CollectionsContextApi
     {
@@ -616,6 +620,7 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * @param int $limit
      * @return CollectionsContextApi
      * @throws Exceptions\CollectionsNotImplementedException
+     * @throws Exceptions\CollectionsException
      */
     public function limit(int $limit): CollectionsContextApi
     {
@@ -629,9 +634,15 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      *
      * @return CollectionsContextApi
      * @throws Exceptions\CollectionsNotImplementedException
+     * @throws Exceptions\CollectionsException
      */
     public function reverse(): CollectionsContextApi
     {
         return $this->setCollection(Collections::reverse($this->getCollection()));
+    }
+
+    public function prepend($element): CollectionsContextApi
+    {
+        // TODO: Implement prepend() method.
     }
 }

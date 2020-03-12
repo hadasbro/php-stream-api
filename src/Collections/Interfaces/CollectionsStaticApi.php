@@ -4,6 +4,8 @@
 namespace Collections\Interfaces;
 
 
+use Collections\Collector;
+
 interface CollectionsStaticApi
 {
 
@@ -55,9 +57,11 @@ interface CollectionsStaticApi
 
     public static function flatMap(iterable $source, callable $flatterFunction): array;
 
-    public static function collect(iterable $source, callable $collector);
+    public static function collect(iterable $source, Collector $collector);
 
     public static function append(iterable $source, $element): array;
+
+    public static function prepend(iterable $source, $element): array;
 
     public static function shuffle(iterable $source): array;
 

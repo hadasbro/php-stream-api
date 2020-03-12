@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Collections\Examples;
 
 use Collections\Collections;
+use Collections\Collector;
 use Collections\Exceptions\CollectionsException;
 
 
