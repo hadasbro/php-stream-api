@@ -4,7 +4,7 @@
 
 ![PHP 7.4+](https://img.shields.io/badge/PHP-%3E%3D%207.4-brightgreen)
 ![License MIT](https://img.shields.io/badge/License-MIT-brightgreen)
-![Ver 1.0.3](https://img.shields.io/badge/version-1.0.3-blue)
+![Ver 1.0.3](https://img.shields.io/badge/version-1.0.3-blue) 
 
 
 This is just Collections API in PHP.
