@@ -305,9 +305,8 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      *
      * [ TERMINAL ]
      *
-     * @param callable $collector
+     * @param Collector $collector
      * @return iterable
-     * @throws Exceptions\CollectionsNotImplementedException
      * @throws Exceptions\CollectionsException
      */
     public function collect(Collector $collector) : iterable
@@ -462,10 +461,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
 
     /**
      * @param callable $mapper
-     * @return CollectionsContextApi
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function transform(callable $mapper): CollectionsContextApi
+    public function transform(callable $mapper): self
     {
         return $this->setCollection(Collections::map($this->getCollection(), $mapper));
     }
@@ -476,10 +475,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * [ INTERMEDIATE ]
      *
      * @param callable $predicate
-     * @return CollectionsContextApi
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function reject(callable $predicate): CollectionsContextApi
+    public function reject(callable $predicate): self
     {
         return $this->setCollection(Collections::reject($this->getCollection(), $predicate));
     }
@@ -545,10 +544,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * [ INTERMEDIATE ]
      *
      * @param callable $predicate
-     * @return CollectionsContextApi
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function search(callable $predicate): CollectionsContextApi
+    public function search(callable $predicate): self
     {
         return $this->setCollection(Collections::search($this->getCollection(), $predicate));
     }
@@ -560,10 +559,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      *
      * @param callable $keyProducer
      * @param bool $strict
-     * @return CollectionsContextApi
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function toAssocArray(callable $keyProducer, $strict = true): CollectionsContextApi
+    public function toAssocArray(callable $keyProducer, $strict = true): self
     {
         return $this->setCollection(Collections::toAssocArray($this->getCollection(), $keyProducer, $strict));
     }
@@ -574,11 +573,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * [ INTERMEDIATE ]
      *
      * @param $element
-     * @return CollectionsContextApi
-     * @throws Exceptions\CollectionsNotImplementedException
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function append($element): CollectionsContextApi
+    public function append($element): self
     {
         return $this->setCollection(Collections::append($this->getCollection(), $element));
     }
@@ -588,11 +586,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      *
      * [ INTERMEDIATE ]
      *
-     * @return CollectionsContextApi
-     * @throws Exceptions\CollectionsNotImplementedException
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function shuffle(): CollectionsContextApi
+    public function shuffle(): self
     {
         return $this->setCollection(Collections::shuffle($this->getCollection()));
     }
@@ -603,11 +600,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * [ INTERMEDIATE ]
      *
      * @param int $skipElements
-     * @return CollectionsContextApi
-     * @throws Exceptions\CollectionsNotImplementedException
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function skip(int $skipElements): CollectionsContextApi
+    public function skip(int $skipElements): self
     {
         return $this->setCollection(Collections::skip($this->getCollection(), $skipElements));
     }
@@ -618,11 +614,10 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      * [ INTERMEDIATE ]
      *
      * @param int $limit
-     * @return CollectionsContextApi
-     * @throws Exceptions\CollectionsNotImplementedException
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function limit(int $limit): CollectionsContextApi
+    public function limit(int $limit): self
     {
         return $this->setCollection(Collections::limit($this->getCollection(), $limit));
     }
@@ -632,17 +627,25 @@ class CollectionsStream extends CollectionsUtils implements CollectionsContextAp
      *
      * [ INTERMEDIATE ]
      *
-     * @return CollectionsContextApi
-     * @throws Exceptions\CollectionsNotImplementedException
+     * @return $this
      * @throws Exceptions\CollectionsException
      */
-    public function reverse(): CollectionsContextApi
+    public function reverse(): self
     {
         return $this->setCollection(Collections::reverse($this->getCollection()));
     }
 
-    public function prepend($element): CollectionsContextApi
+    /**
+     * prepend
+     *
+     * [ INTERMEDIATE ]
+     *
+     * @param $element
+     * @return $this
+     * @throws Exceptions\CollectionsException
+     */
+    public function prepend($element): self
     {
-        // TODO: Implement prepend() method.
+        return $this->setCollection(Collections::prepend($this->getCollection(), $element));
     }
 }

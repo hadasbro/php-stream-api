@@ -9,6 +9,6 @@ use Exception;
  * Class CollectionsNotImplementedException
  * @package Collections\Exceptions
  */
-class CollectionsNotImplementedException extends Exception
+class CollectionsNotImplementedException extends CollectionsException
 {
 }

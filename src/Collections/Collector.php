@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Collections;
 
-use Collections\Examples\CollectionsSampleObject;
 use Collections\Exceptions\CollectionsException;
 use Collections\Exceptions\CollectionsInvalidInputException;
 
@@ -135,7 +134,7 @@ class Collector extends CollectorOperations
 
     /**
      * @param $source
-     * @return null
+     * @return mixed
      * @throws CollectionsException
      */
     public function collect($source)

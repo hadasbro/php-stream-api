@@ -8,6 +8,7 @@ namespace Collections;
 
 use Collections\Examples\CollectionsSampleObject;
 use Collections\Exceptions\CollectionsInvalidInputException;
+use Collections\Exceptions\CollectionsNotImplementedException;
 use Collections\Interfaces\CollectionsContextApi;
 
 /**
@@ -105,7 +106,7 @@ class CollectionsStreamLazy extends CollectionsUtils implements CollectionsConte
      *
      * @param callable $producter
      * @param bool $lazyMode
-     * @return CollectionsStream
+     * @return $this
      * @throws CollectionsInvalidInputException
      */
     public static function fromProducer(callable $producter, $lazyMode = false) {
@@ -223,153 +224,305 @@ class CollectionsStreamLazy extends CollectionsUtils implements CollectionsConte
         return $this;
     }
 
+    /**
+     * @param callable $mapper
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function map(callable $mapper): CollectionsContextApi
     {
-        // TODO: Implement map() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function filter(callable $predicate): CollectionsContextApi
     {
-        // TODO: Implement filter() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function transform(callable $predicate): CollectionsContextApi
     {
-        // TODO: Implement transform() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function reject(callable $predicate): CollectionsContextApi
     {
-        // TODO: Implement reject() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $firstIsLowerComparator
+     * @throws CollectionsNotImplementedException
+     */
     public function min(callable $firstIsLowerComparator)
     {
-        // TODO: Implement min() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $firstIsLowerComparator
+     * @throws CollectionsNotImplementedException
+     */
     public function max(callable $firstIsLowerComparator)
     {
-        // TODO: Implement max() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @return bool
+     * @throws CollectionsNotImplementedException
+     */
     public function isEmpty(): bool
     {
-        // TODO: Implement isEmpty() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @return bool
+     * @throws CollectionsNotImplementedException
+     */
     public function isNotEmpty(): bool
     {
-        // TODO: Implement isNotEmpty() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $biSorter
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function sort(callable $biSorter): CollectionsContextApi
     {
-        // TODO: Implement sort() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @return int
+     * @throws CollectionsNotImplementedException
+     */
     public function count(): int
     {
-        // TODO: Implement count() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $keyProducer
+     * @return array
+     * @throws CollectionsNotImplementedException
+     */
     public function countBy(callable $keyProducer): array
     {
-        // TODO: Implement countBy() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $reducer
+     * @throws CollectionsNotImplementedException
+     */
     public function reduce(callable $reducer)
     {
-        // TODO: Implement reduce() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $biPredicate
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function distinct(callable $biPredicate): CollectionsContextApi
     {
-        // TODO: Implement distinct() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return bool
+     * @throws CollectionsNotImplementedException
+     */
     public function allMatch(callable $predicate): bool
     {
-        // TODO: Implement allMatch() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return bool
+     * @throws CollectionsNotImplementedException
+     */
     public function anyMatch(callable $predicate): bool
     {
-        // TODO: Implement anyMatch() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return bool
+     * @throws CollectionsNotImplementedException
+     */
     public function noneMatch(callable $predicate): bool
     {
-        // TODO: Implement noneMatch() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $keyProducer
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function groupBy(callable $keyProducer): CollectionsContextApi
     {
-        // TODO: Implement groupBy() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $isNullPredicate
+     * @param $defaultElement
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function orElse(callable $isNullPredicate, $defaultElement): CollectionsContextApi
     {
-        // TODO: Implement orElse() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $isNullPredicate
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function orElseThrow(callable $isNullPredicate): CollectionsContextApi
     {
-        // TODO: Implement orElseThrow() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return bool
+     * @throws CollectionsNotImplementedException
+     */
     public function contains(callable $predicate): bool
     {
-        // TODO: Implement contains() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $predicate
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function search(callable $predicate): CollectionsContextApi
     {
-        // TODO: Implement search() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $consumer
+     * @throws CollectionsNotImplementedException
+     */
     public function forEach(callable $consumer): void
     {
-        // TODO: Implement forEach() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $keyProducer
+     * @param bool $strict
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function toAssocArray(callable $keyProducer, $strict = true): CollectionsContextApi
     {
-        // TODO: Implement toAssocArray() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param callable $flatterFunction
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function flatMap(callable $flatterFunction): CollectionsContextApi
     {
-        // TODO: Implement flatMap() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
-    public function collect(callable $collector)
-    {
-        // TODO: Implement collect() method.
-    }
-
+    /**
+     * @param $element
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function append($element): CollectionsContextApi
     {
-        // TODO: Implement append() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function shuffle(): CollectionsContextApi
     {
-        // TODO: Implement shuffle() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param int $skipElements
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function skip(int $skipElements): CollectionsContextApi
     {
-        // TODO: Implement skip() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @param int $limit
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function limit(int $limit): CollectionsContextApi
     {
-        // TODO: Implement limit() method.
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 
+    /**
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
     public function reverse(): CollectionsContextApi
     {
-        // TODO: Implement reverse() method.
+        throw new CollectionsNotImplementedException("Not implemented");
+    }
+
+    /**
+     * @param $element
+     * @return CollectionsContextApi
+     * @throws CollectionsNotImplementedException
+     */
+    public function prepend($element): CollectionsContextApi
+    {
+        throw new CollectionsNotImplementedException("Not implemented");
+    }
+
+    /**
+     * @param Collector $collector
+     * @throws CollectionsNotImplementedException
+     */
+    public function collect(Collector $collector)
+    {
+        throw new CollectionsNotImplementedException("Not implemented");
     }
 }

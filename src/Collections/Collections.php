@@ -671,7 +671,7 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
      *
      * @param iterable $source
      * @param Collector $collector
-     * @return |null
+     * @return null |null
      * @throws CollectionsException
      */
     public static function collect(iterable $source, Collector $collector)
@@ -685,7 +685,6 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
      * @param iterable $source
      * @param $element
      * @return array
-     * @throws CollectionsNotImplementedException
      * @throws CollectionsException
      */
     public static function append(iterable $source, $element): array
@@ -720,7 +719,6 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
      *
      * @param iterable $source
      * @return array
-     * @throws CollectionsNotImplementedException
      * @throws CollectionsException
      */
     public static function shuffle(iterable $source): array
@@ -738,7 +736,6 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
      * @param iterable $source
      * @param int $skipElements
      * @return array
-     * @throws CollectionsNotImplementedException
      * @throws CollectionsException
      */
     public static function skip(iterable $source, int $skipElements): array
@@ -755,7 +752,6 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
      * @param iterable $source
      * @param int $limit
      * @return array
-     * @throws CollectionsNotImplementedException
      * @throws CollectionsException
      */
     public static function limit(iterable $source, int $limit): array
@@ -771,7 +767,6 @@ class Collections extends CollectionsUtils implements CollectionsStaticApi
      *
      * @param iterable $source
      * @return array
-     * @throws CollectionsNotImplementedException
      * @throws CollectionsException
      */
     public static function reverse(iterable $source): array
