@@ -2,6 +2,8 @@
 
 ![PHP Composer](https://github.com/hadasbro/php-stream-api/workflows/PHP%20Composer/badge.svg)
 
+[![Packagist Total Downloads](https://img.shields.io/packagist/dt/hadasbro/php-streams)](https://packagist.org/packages/hadasbro/php-streams)
+
 ![PHP 7.4+](https://img.shields.io/badge/PHP-%3E%3D%207.4-brightgreen)
 ![License MIT](https://img.shields.io/badge/License-MIT-brightgreen)
 ![Ver 1.0.4](https://img.shields.io/badge/version-1.0.4-blue) 
